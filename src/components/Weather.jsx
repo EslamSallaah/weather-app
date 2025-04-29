@@ -10,6 +10,7 @@ import humidty_icon from '../images/humidity.png'
 const Weather = () => {
 
 const [weatherData, setWeatherData] = useState(false);
+const [city, setCity] = useState("new york")
 
 const allIcons={ 
     "o1d": clear_icon,
@@ -25,7 +26,7 @@ const allIcons={
 
 const Search= async(city)=>{
 try {
-    const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=14e2982e021f78d49dd3f13c2ebe4951`;
 
 const response= await fetch(url);
 const data= await response.json();
@@ -43,21 +44,24 @@ setWeatherData({
     console.log(error)
 
 }
-
+}
 useEffect(() => {
 Search("new york");
 
 
-    } , [])
-}
+}, [])
+
 
 
   return (
     <div className="weather">
         <div className='search-bar'>
-            <input type='text' placeholder='search'/>
-            <img src={search_icon} alt='search icon' />
-        </div>
+        <input value={city} onChange={(e) => setCity(e.target.value)} type="text" placeholder="search" />      
+        <img
+          onClick={() => Search(city)}
+          src={search_icon}
+          alt="search icon"
+       />        </div>
   <img src={clear_icon} alt='' className='weather-icon'/>
   <p className='temprature'>{weatherData.temprature}</p>
   <p className='location'>{weatherData.location}</p>
